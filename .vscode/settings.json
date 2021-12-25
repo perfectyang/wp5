@@ -1,0 +1,13 @@
+{
+  "eslint.codeActionsOnSave.mode": "problems",
+  "eslint.alwaysShowStatus": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll": true
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "cSpell.words": ["ahooks", "antd", "deletable", "esbuild", "Swiper"],
+  "typescript.tsserver.pluginPaths": ["typescript-plugin-css-modules"]
+}
