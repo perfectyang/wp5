@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Index = (fn) => {
+type IFn<T> = (val: T[]) => Promise<any>;
+
+const Index = <T>(fn: IFn<T>) => {
   const lockRef = React.useRef(false);
   return React.useCallback(
     async (...args) => {
@@ -17,10 +19,6 @@ const Index = (fn) => {
     },
     [fn]
   );
-};
-
-const Iner = () => {
-  console.log(111);
 };
 
 export default Index;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Index = (initValue) => {
+const Index = <T>(initValue: T) => {
   const getInitValue = () => {
     return initValue === undefined ? new Map() : new Map(initValue);
   };
