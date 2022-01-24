@@ -1,6 +1,7 @@
 import React from 'react';
+import type { DependencyList, EffectCallback } from 'react';
 
-const useUpdateEffect = (fn, deps) => {
+const useUpdateEffect = (effect: EffectCallback, deps: DependencyList = []) => {
   const localRef = React.useRef(false);
   React.useEffect(() => {
     return () => {
@@ -12,7 +13,7 @@ const useUpdateEffect = (fn, deps) => {
     if (!localRef.current) {
       localRef.current = true;
     } else {
-      fn();
+      effect();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deps]);

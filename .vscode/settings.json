@@ -9,5 +9,6 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.tabSize": 2,
   "cSpell.words": ["ahooks", "antd", "deletable", "esbuild", "Swiper"],
-  "typescript.tsserver.pluginPaths": ["typescript-plugin-css-modules"]
+  "typescript.tsserver.pluginPaths": ["typescript-plugin-css-modules"],
+  "liveServer.settings.port": 5501
 }

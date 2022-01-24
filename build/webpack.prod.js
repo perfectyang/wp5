@@ -10,15 +10,15 @@ module.exports = {
   mode: 'development',
   plugins: [
     // css文件单独抽离
-    new MiniCssExtractPlugin({
-      filename: 'css/[name]_[contenthash:8].css',
-    }),
+    // new MiniCssExtractPlugin({
+    //   filename: 'css/[name]_[contenthash:8].css',
+    // }),
     // 擦除无用的css代码
-    new PurgeCSSPlugin({
-      paths: glob.sync(`${path.join(__dirname, '../src')}/**/*`, {
-        nodir: true,
-      }),
-    }),
+    // new PurgeCSSPlugin({
+    //   paths: glob.sync(`${path.join(__dirname, '../src')}/**/*`, {
+    //     nodir: true,
+    //   }),
+    // }),
     new WebpackBar(),
   ],
   optimization: {
