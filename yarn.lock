@@ -1369,6 +1369,18 @@
     "@typescript-eslint/types" "5.8.0"
     eslint-visitor-keys "^3.0.0"
 
+"@use-gesture/core@10.2.5":
+  version "10.2.5"
+  resolved "https://registry.yarnpkg.com/@use-gesture/core/-/core-10.2.5.tgz#f7df136a759059f58b524b8c7cca20c06b015724"
+  integrity sha512-Pggq5qLipJNYjMq6R7p7Y5h1juUlTkrhi9KqFJH6PcRFCNn+evjbOvpX7JEFehrx4Ik9UZcQpkmR+E0s7a5Lbg==
+
+"@use-gesture/react@^10.2.5":
+  version "10.2.5"
+  resolved "https://registry.yarnpkg.com/@use-gesture/react/-/react-10.2.5.tgz#51dd1a7dfc8e7dac53c4a07e898629c1474a5a36"
+  integrity sha512-AEVi2BBKOms7UNoRzthxwe4t3UVe/S1Vm4K2Vitbup3TkbhF3x70/ZbgE/TxhucYFcOPUcrQ89squEs/liQezg==
+  dependencies:
+    "@use-gesture/core" "10.2.5"
+
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"
@@ -5942,3 +5954,8 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zustand@^3.6.9:
+  version "3.6.9"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.6.9.tgz#f61a756ddea9f95c7ee7cfd3af2f88c10078afbc"
+  integrity sha512-OvDNu/jEWpRnEC7k8xh8GKjqYog7td6FZrLMuHs/IeI8WhrCwV+FngVuwMIFhp5kysZXr6emaeReMqjLGaldAQ==
