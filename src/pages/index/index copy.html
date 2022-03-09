@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width" />
+    <title>index</title>
+  </head>
+  <body>
+    <style>
+      .box {
+        width: 500px;
+        height: 500px;
+        border: 1px solid red;
+        position: relative;
+      }
+      #line {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 1;
+      }
+      #id {
+        position: relative;
+      }
+    </style>
+    <!-- <div id="root"></div> -->
+    <div class="box" id="box">
+      <canvas id="id"></canvas>
+      <!-- <canvas id="line"></canvas> -->
+    </div>
+
+    <script>
+      var canvas = document.getElementById('id');
+      console.log('canvas.getContext', canvas);
+      var ctx = canvas.getContext('2d');
+
+      //创建图片
+      var img = new Image(); // 创建一个<img>元素
+      img.onload = function () {
+        ctx.drawImage(img, 0, 0); //绘制图片
+      };
+      img.src =
+        'https://d2n979dmt31clo.cloudfront.net/image/pod/3300003249/1611650473007/13f419bf1aa44ba2ad4a63bc6b4a45e1.jpeg'; //
+      const imgUrl = canvas.toDataURL('image/png', 1);
+      ctx.clearRect(0, 0, ctx.width, ctx.height);
+
+      function drawGrid(stepX, stepY, color, lineWidth) {
+        // var canvas = document.createElement('canvas');
+        canvas.width = 500;
+        canvas.height = 500;
+        canvas.id = 'line';
+        var context = canvas.getContext('2d');
+        canvas.style.background = 'url(' + imgUrl + ')';
+        console.log('canvas', canvas);
+        // 创建垂直格网线路径
+        for (let i = 0.5; i <= canvas.width; i += stepX) {
+          context.moveTo(i, 0);
+          context.lineTo(i, canvas.height);
+        }
+        // 创建水平格网线路径
+        for (let j = 0.5; j <= canvas.height; j += stepY) {
+          context.moveTo(0, j);
+          context.lineTo(canvas.width, j);
+        }
+
+        // 设置绘制颜色
+        context.strokeStyle = color;
+        // 设置绘制线段的宽度
+        context.lineWidth = lineWidth;
+        // 绘制格网
+        context.stroke();
+        // 清除路径
+        context.beginPath();
+        return () => {
+          context.clearRect(10, 10, 100, 100);
+        };
+      }
+      const clearDraw = drawGrid(10, 10, 'lightgray', 0.5);
+      setTimeout(() => {
+        clearDraw();
+      }, 3000);
+    </script>
+  </body>
+</html>
