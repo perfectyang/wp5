@@ -1,9 +1,5 @@
 import React, { useEffect, useLayoutEffect } from 'react';
-import { useResponsive, configResponsive } from 'ahooks';
 import './index.scss';
-configResponsive({
-  middle: 1024,
-});
 
 function pxToNumber(value: string | null): number {
   if (!value) return 0;
@@ -22,7 +18,6 @@ function createTag(tagList) {
 const Tags = () => {
   const rootRef = React.useRef<HTMLDivElement>(null);
   const [exceeded, setExceeded] = React.useState(false);
-  const responsive = useResponsive();
   const [tagList, setTagList] = React.useState([
     {
       label: 'dssaddsadsadasdsads',
@@ -79,7 +74,7 @@ const Tags = () => {
     container.style.whiteSpace = 'normal';
     container.style.webkitLineClamp = 'unset';
     container.style.display = 'block';
-    const rows = 3.5;
+    const rows = 2.5;
     container.innerHTML = createTag(tagList);
     document.body.appendChild(container);
     const text: HTMLSpanElement = container.querySelector('.text');
@@ -120,7 +115,7 @@ const Tags = () => {
 
   useEffect(() => {
     window.addEventListener('resize', calcEllipsised);
-    calcEllipsised();
+    // calcEllipsised();
     return () => window.removeEventListener('resize', calcEllipsised);
   }, []);
 
