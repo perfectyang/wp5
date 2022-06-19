@@ -1,5 +1,8 @@
 function isEmptyValue(value) {
-  if (value === undefined || value === null || value?.trim() === '') {
+  if (value === undefined || value === null) {
+    return true;
+  }
+  if (typeof value === 'string' && value?.trim() === '') {
     return true;
   }
   return false;
@@ -7,7 +10,6 @@ function isEmptyValue(value) {
 
 const rules = {
   required: (rule, value, errors) => {
-    // console.log('rule', rule);
     if (rule.required && (isEmptyValue(value) || !rule.field)) {
       errors.push(rule.message || `${rule.field} failure`);
     }
@@ -15,16 +17,12 @@ const rules = {
 };
 
 const validators = {
-  string: (rule, value, callback) => {
+  defaultValidator: (rule, value, callback) => {
     const errors = [];
     const validate = rule.required;
     if (validate) {
-      // if (isEmptyValue(value, 'string') && !rule.required) {
-      //   return callback();
-      // }
       rules.required(rule, value, errors);
       // if (!isEmptyValue(value, 'string')) {
-      //   rules.type(rule, value, source, errors, options);
       //   rules.range(rule, value, source, errors, options);
       //   rules.pattern(rule, value, source, errors, options);
       //   if (rule.whitespace === true) {
@@ -36,26 +34,26 @@ const validators = {
   },
 };
 
-function asyncSerialArray(arr, func, callback) {
-  const len = arr.length;
-  let index = 0;
-  const next = (err) => {
-    if (err && err.length) {
-      callback(err);
-      return;
-    }
-    // 闭包拿正常的索引
-    const originIndex = index;
-    index = index + 1;
-    if (originIndex < len) {
-      func(arr[originIndex], next);
-    } else {
-      callback([]);
-    }
-    // total++
-  };
-  next([]);
-}
+// function asyncSerialArray(arr, func, callback) {
+//   const len = arr.length;
+//   let index = 0;
+//   const next = (err) => {
+//     if (err && err.length) {
+//       callback(err);
+//       return;
+//     }
+//     // 闭包拿正常的索引
+//     const originIndex = index;
+//     index = index + 1;
+//     if (originIndex < len) {
+//       func(arr[originIndex], next);
+//     } else {
+//       callback([]);
+//     }
+//     // total++
+//   };
+//   next([]);
+// }
 
 function asyncParellArray(arr, func, callback) {
   const len = arr.length;
@@ -79,13 +77,13 @@ function asyncMap(series, func, callback) {
   let total = 0;
   let result = [];
 
-  const pending = new Promise((resolve, reject) => {
+  const pending = new Promise((resolve) => {
     const next = (error) => {
       total++;
       result = result.concat(error);
       if (total === keysLen) {
         callback(result);
-        return result.length ? reject(result) : resolve('');
+        return result.length ? resolve(result) : resolve([]);
       }
     };
     keys.forEach((key) => {
@@ -93,15 +91,11 @@ function asyncMap(series, func, callback) {
       asyncParellArray(series[key], func, next);
     });
   });
-  pending.catch((e) => e);
   return pending;
 }
 
 class Schema {
   rules: Record<string, any>;
-  // constructor(descriptor) {
-  //   this.formateRules(descriptor);
-  // }
 
   createRules(descriptor) {
     this.formateRules(descriptor);
@@ -119,10 +113,7 @@ class Schema {
     if (rule.validator) {
       return rule.validator;
     }
-    return validators[this.getType(rule)] || false;
-  }
-  getType(rule) {
-    return rule.type;
+    return validators.defaultValidator || false;
   }
 
   validate(source, callback) {
@@ -132,12 +123,15 @@ class Schema {
       const arrRule = this.rules[key];
       const value = source[key];
       arrRule.forEach((rule) => {
+        const tempRule = {
+          ...rule,
+        };
         series[key] = series[key] || [];
-        rule.validator = this.getValidationMethod(rule);
-        rule.field = key;
-        rule.fullField = rule.fullField || key;
+        tempRule.validator = this.getValidationMethod(tempRule);
+        tempRule.field = key;
+        tempRule.fullField = key;
         series[key].push({
-          rule,
+          rule: tempRule,
           source,
           value,
           field: key,
@@ -172,7 +166,9 @@ class Schema {
         if (res && res.then) {
           res.then(
             () => cb(),
-            (e) => cb(e || `${rule.field} fails`)
+            (e) => {
+              cb(e || `${rule.field} fails`);
+            }
           );
         } else {
           if (res === true) {
@@ -183,7 +179,7 @@ class Schema {
         }
       },
       (result) => {
-        callback(result);
+        callback?.(result);
       }
     );
   }
